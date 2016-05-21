@@ -6,7 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var assets = require('./routes/assets');
+var allocate = require('./routes/allocate');
+var masterdata = require('./routes/masterdata');
 
 var app = express();
 
@@ -21,10 +23,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/bower_components', express.static(path.join(__dirname, '/bower_components')));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
-app.use('/', routes);
-app.use('/users', users);
+
+// handle CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.use('/', routes);       // localhost:3000/
+app.use('/assets', assets);   // localhost:3000/assets
+app.use('/allocate', allocate); // localhost:3000/allocate
+app.use('/masterdata', masterdata);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

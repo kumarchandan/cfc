@@ -9,8 +9,17 @@ router.get('/', function(req, res, next) {
 });
 
 
-// All api stuff
+// db -all queries
 router.get('/api/products', query.getProducts);
+router.get('/api/inventory', query.getInventory);
+router.get('/api/donors', query.getDonors);
+router.get('/api/employees', query.getEmployees);
+router.get('/api/locations', query.getLocations);
+router.get('/api/transactions', query.getTransactions);
+router.get('/api/items', query.getTransItems);
+
+// db - specific queries
+router.get('/query/inventory/:center/:product/:company/:year', query.searchInventory);
 
 
 module.exports = router;
