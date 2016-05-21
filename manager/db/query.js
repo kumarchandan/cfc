@@ -135,7 +135,13 @@ function searchInventory(req, res, next) {
     if(center !== 'null' && product !== 'null' && company !== 'null' && year !== 'null') {
         var stmtStr = 'select * from inventory where center_id = $1 AND product_name = $2 AND company_name = $3 AND extract(year from created_on) = $4';
         var paramArr = [center, product, company, year];
-        getData(stmtStr, paramArr, function (data) {
+        getData(stmtStr, paramArr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -148,7 +154,13 @@ function searchInventory(req, res, next) {
     } else if(center !== 'null' && product !== 'null' && company !== 'null') {
         var stmtStr = 'select * from inventory where center_id = $1 AND product_name = $2 AND company_name = $3';
         var paramArr = [center, product, company];
-        getData(stmtStr, paramArr, function (data) {
+        getData(stmtStr, paramArr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -161,7 +173,13 @@ function searchInventory(req, res, next) {
     }else if(year !== 'null' && product !== 'null' && company !== 'null') {
         var stmtStr = 'select * from inventory where extract(year from created_on) = $1 AND product_name = $2 AND company_name = $3';
         var paramArr = [year, product, company];
-        getData(stmtStr, paramArr, function (data) {
+        getData(stmtStr, paramArr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -174,7 +192,13 @@ function searchInventory(req, res, next) {
     } else if(center !== 'null' && product !== 'null') {
         var stmtStr = 'select * from inventory where center_id = $1 AND product_name = $2';
         var paramArr = [center, product];
-        getData(stmtStr, paramArr, function (data) {
+        getData(stmtStr, paramArr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -187,7 +211,13 @@ function searchInventory(req, res, next) {
     }else if(center !== 'null' && company !== 'null') {
         var stmtStr = 'select * from inventory where company_name = $1 AND center_id = $2';
         var paramArr = [company, center];
-        getData(stmtStr, paramArr, function (data) {
+        getData(stmtStr, paramArr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -200,7 +230,13 @@ function searchInventory(req, res, next) {
     } else if(product !== 'null' && company !== 'null') {
         var stmtStr = 'select * from inventory where company_name = $1 AND product_name = $2';
         var paramArr = [company, product];
-        getData(stmtStr, paramArr, function (data) {
+        getData(stmtStr, paramArr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -213,7 +249,13 @@ function searchInventory(req, res, next) {
     } else if(year !== 'null' && company !== 'null') {
         var stmtStr = 'select * from inventory where company_name = $1 AND extract(year from created_on) = $2';
         var paramArr = [company, year];
-        getData(stmtStr, paramArr, function (data) {
+        getData(stmtStr, paramArr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -226,7 +268,13 @@ function searchInventory(req, res, next) {
     } else if(center !== 'null') {
         var stmtStr = 'select * from inventory where center_id = $1';
         var paramStr = center;
-        getData(stmtStr, paramStr, function (data) {
+        getData(stmtStr, paramStr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -239,7 +287,13 @@ function searchInventory(req, res, next) {
     } else if(product !== 'null') {
         var stmtStr = 'select * from inventory where product_name = $1';
         var paramStr = product;
-        getData(stmtStr, paramStr, function (data) {
+        getData(stmtStr, paramStr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -252,7 +306,13 @@ function searchInventory(req, res, next) {
     } else if(company !== 'null') {
         var stmtStr = 'select * from inventory where company_name = $1';
         var paramStr = company;
-        getData(stmtStr, paramStr, function (data) {
+        getData(stmtStr, paramStr, function (err, data) {
+            if(err) {
+                res.status(404)
+                    .json({
+                        message: 'db error'
+                    });
+            }
             if(data) {
                 res.status(200)
                     .json({
@@ -269,9 +329,9 @@ function searchInventory(req, res, next) {
 function getData(stmtStr, param, callback) {
     db.any(stmtStr, param)
         .then(function (data) {
-            callback(data);
+            callback(null, data);
         }).catch(function (err) {
-            callback(err);
+            callback(err, null);
         });
 }
 

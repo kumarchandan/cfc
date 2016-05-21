@@ -1,14 +1,8 @@
-asset management application
+# Asset management application
 
-# Master Data
-#Transaction
-	- From Center
-	- To Center
-    
+### User Story:
 
-User Story:
-
-1) Any company asks about the assets they've given ( in specific year )		-- Status Report (inventory table)
+1. Any company asks about the assets they've given ( in specific year )		-- Status Report (inventory table)
 	- displays all the assets
 		- with Location
 		- with Product Name
@@ -20,13 +14,13 @@ User Story:
         - by product name
         - by location etc
 
-2) User requests assets, system displays available assets with given params .	-- Asset Availability
+2. User requests assets, system displays available assets with given params .	-- Asset Availability
 	- How the user requests?
         - Manually or email or phone call
         - Employee logs in and search with params
                 - center_id, from_date, to_date, product_name, quantity,
                     - check the inventory table with the requested params ( center_id, product_name )     => [ inv_id ]
-3) System allocates the quantity.
+3. System allocates the quantity.
         - Employee confirms the movement
                 - check the transaction_item with returned ( from_date, to_date, status(in_process, not_started), [ inv_id ],  quantity(first n entries))  
                 - update inventory table
@@ -36,33 +30,25 @@ User Story:
                     - status field -> future date and current date
         
     - if Status is cancelled, delete the instance from (transcation and transcation_item table)
+    - Requested item transaction, store in system
+        - it will have status - In Process - Accepted - Rejected
 
+    - Near by Location - allocation of assets
+    - Doner query based on specific period, item-wise
 
-Open Questions:
-Distributed or Integrated System is required?
+4. User can create transaction for moving assets
 
-Request item transaction store in system
-	- it will have status - In Process - Accepted - Rejected
-
-
-Near by Location - allocation of assets
-
-Doner query based on specific period, item-wise
-
-5) User can create transaction for moving assets
-
-6) User gets a request for assets, logs in to the system, search the query -> assets that is available in that location, available in that date, assets required.
+5. User gets a request for assets, logs in to the system, search the query -> assets that is available in that location, available in that date, assets required.
 
   - logic
    - looks for the inventory table, on specified_date and product_name
-   - 
    
-7) How to store multiple bookings for assets?
+6. How to store multiple bookings for assets?
 
    
    
 
-# Problems Solved
+## Problems Solved
 
 User can allocate the assets to the another center for a specific date range.
  - Inventory table can give assets within date
